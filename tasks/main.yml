@@ -1,0 +1,63 @@
+---
+# tasks file for backup-f5-config
+- name: Synchronizing as BIG IP Stand-by settings - Staging
+  bigip_configsync_action:
+    provider:
+      server: "{{ balancerHomoSecundario }}"
+      user: "{{ balancerUser }}"
+      password: "{{ balancerPass }}"
+      validate_certs: no
+    device_group: "{{ balancerHomoDeviceGroup }}"
+    sync_most_recent_to_device: yes
+  delegate_to: localhost
+- name: Creating Backup File (UCS File) - BIG IP Secondary Staging
+  bigip_ucs_fetch:
+    provider:
+      server: "{{ balancerHomoSecundario }}"
+      user: "{{ balancerUser }}"
+      password: "{{ balancerPass }}"
+      validate_certs: no
+    src: "{{ balancerBackupFilenameHomoLapa }}"
+    dest: "{{ balancerBackupFilePathHomoLapa }}"
+  delegate_to: localhost
+- name: Creating Backup File (UCS File) - BIG IP Primary Staging
+  bigip_ucs_fetch:
+    provider:
+      server: "{{ balancerHomoPrimario }}"
+      user: "{{ balancerUser }}"
+      password: "{{ balancerPass }}"
+      validate_certs: no
+    src: "{{ balancerBackupFilenameHomoVivo }}"
+    dest: "{{ balancerBackupFilePathHomoVivo }}"
+  delegate_to: localhost
+- name: Synchronizing as BIG IP Stand-by settings - Production
+  bigip_configsync_action:
+    provider:
+      server: "{{ balancerProdSecundario}}"
+      user: "{{ balancerUser }}"
+      password: "{{ balancerPass }}"
+      validate_certs: no
+    device_group: "{{ balancerProdDeviceGroup }}"
+    sync_most_recent_to_device: yes
+  delegate_to: localhost
+- name: Creating Backup File (UCS File) - BIG IP Secondary Production
+  bigip_ucs_fetch:
+    provider:
+      server: "{{ balancerProdSecundario }}"
+      user: "{{ balancerUser }}"
+      password: "{{ balancerPass }}"
+      validate_certs: no
+    src: "{{ balancerBackupFilenameProdLapa }}"
+    dest: "{{ balancerBackupFilePathProdLapa }}"
+  delegate_to: localhost
+- name: Creating Backup File (UCS File) - BIG IP Primary Production
+  bigip_ucs_fetch:
+    provider:
+      server: "{{ balancerProdPrimario }}"
+      user: "{{ balancerUser }}"
+      password: "{{ balancerPass }}"
+      validate_certs: no
+    src: "{{ balancerBackupFilenameProdVivo }}"
+    dest: "{{ balancerBackupFilePathProdVivo }}"
+  delegate_to: localhost
+...

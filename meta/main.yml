@@ -1,0 +1,13 @@
+galaxy_info:
+  author: Vinicius A Santos // Github vinealvees
+  description: This role synchronizes the configuration of the two devices (two in the production environment and two in the staging environment) and backs up the settings of each one.
+  license: license (GPL-2.0-or-later, MIT, etc)
+  min_ansible_version: 2.9
+  galaxy_tags: 
+    bigip
+    ucs
+    backup
+    ltm
+    f5
+  dependencies:
+    Requires BIG-IP software version >= 12
